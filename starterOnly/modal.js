@@ -8,15 +8,19 @@ function editNav() {
 }
 
 //-------------------------------
-// ISSUE 5
-
+// ISSUE 1
 // TODO : fermer la modale
-// on va declarer deux variables qui contiennent respectivement l element de la classe close et content
-// close correspond a l element de fermeture du formulaire
-// content correspond a l element formulaire
+
+// on va declarer deux variables qui contiennent respectivement l'element de la classe close et content
+// close correspond a l'element de fermeture du formulaire
+// content correspond a l'element formulaire
 
 const closeIcon = document.querySelector(".close");
-const closeForm = document.querySelector(".content");
+const closeForm = document.querySelector(".bground");
+
+const closeBtnSubmit = document.querySelector(".btn-submit");
+const modalConfirm = document.querySelector(".modal-confirm");
+
 // on cree une fonction qui a pour role de masquer le formulaire en injectant du style
 // lors de l evenement click sur l element de classe close
 closeIcon.addEventListener("click", () => {
@@ -25,13 +29,12 @@ closeIcon.addEventListener("click", () => {
 //-------------------------------
 
 //-------------------------------
-// ISSUE 4
-
+// ISSUE 2
 // Implémenter entrées du formulaire
 
 // Une fonction est appeler a la validation du formulaire par l'utilisateur.
-// Elle a pour role de verifier a travers des conditions
-// les differents champs du formulaire
+// Elle a pour role de verifier a travers des conditions les differents champs du formulaire
+
 let formValidInput =      document.getElementById("btn");
 let firstNameInput =      document.getElementById("first");
 let missFirstNameInput =  document.getElementById("missFirst");
@@ -87,6 +90,7 @@ function validate(e) {
     missEmailInput.style.color = "red";
     emailAdressInput.focus();
     return false;
+    // ajouter une regex
   } else if (emailAdressInput.value.indexOf("@") == -1) {
     // permet de tester l'occurence '@' qui renvoi -1 si elle n'est pas trouvee
     e.preventDefault();
@@ -95,7 +99,7 @@ function validate(e) {
     emailAdressInput.focus();
     return false;
   }
-
+ // regex a ce niveau pour verifier la date
   if (birthdateInput.validity.valueMissing) {
     e.preventDefault();
     missBirthdateInput.textContent = "Vous devez entrer votre date de naissance.";
@@ -109,6 +113,7 @@ function validate(e) {
     e.preventDefault();
     missQuantityInput.textContent = 'Veuillez saisir un chiffre!';
     missBirthdateInput.style.color = 'red';
+    //focus et regex (verification du type de donnees (+ digit one or more) )
     return false;
   }
   else if (quantityInput.validity.valueMissing) {
@@ -119,21 +124,27 @@ function validate(e) {
     return false;
   }
 
-  if(!this.form.terms.checked) // Permet de verifier que le case des conditions d'utilisation a bien ete coche et valider par l'utilisateur
+  if(!this.form.terms.checked) // Permet de verifier que le case des conditions d'utilisation a bien ete cochee par l'utilisateur
   {
       alert('Vous devez vérifier que vous acceptez les termes et conditions.');
       return false;
   }
+
+      
+  modalConfirm.style.visibility = "visible";    
+
+  //alert("Merci ! Votre réservation a été reçue.");
 }
 
 // Recuperer les informations du formulaire :
 
 // JSON.parse(objet) : Transforme un string defini en parametre en objet
+// Inscrit le resultat de la fonction en tant qu'objet dans une variable
 const local = JSON.parse(localStorage.getItem("user"));
 
 // Creation d'une fonction qui va cree un objet stocker dans une variable user
 // lors de la validation du formulaire par le boutton submit
-// L'objet contient les informations de l'utilisateur inscrite a travers le formulaire
+// L'objet contient les informations que l'utilisateur a selectionner dans le formulaire
 
 btn.onclick = () => {
   const user = {
@@ -159,9 +170,27 @@ btn.onclick = () => {
 
 //-------------------------------
 // ISSUE 3
-// Ajouter validation ou messages d'erreur
+// Ajouter validation ou messages d'erreur (cf issue 2)
+//-------------------------------
+
 
 //-------------------------------
+// ISSUE 4
+// Ajouter confirmation quand envoi réussi
+
+/*
+const closeBtnSubmit = document.querySelector(".btn-submit");
+const modalConfirm = document.querySelector(".modal-confirm");
+// on cree une fonction qui a pour role de masquer le formulaire en injectant du style
+// lors de l evenement click sur l element de classe close
+closeBtnSubmit.addEventListener("click", () => {
+  
+  closeForm.style.visibility = "hidden";
+  modalConfirm.style.top = "-640 + px";
+  modalConfirm.style.left = "295 + px";
+  modalConfirm.style.visibility = "visible";
+});
+*/
 // DOM Elements
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
