@@ -8,26 +8,250 @@ function editNav() {
 }
 
 //-------------------------------
-// ISSUE 1
-// TODO : fermer la modale
 
-// on va declarer deux variables qui contiennent respectivement l'element de la classe close et content
-// close correspond a l'element de fermeture du formulaire
-// content correspond a l'element formulaire
+/* Element du DOM */
 
-const closeIcon = document.querySelector(".close");
-const closeForm = document.querySelector(".bground");
-
-const closeBtnSubmit = document.querySelector(".btn-submit");
+const closeBtn = document.querySelector(".close");
+const modalForm = document.querySelector(".bground");
+const modalBtn = document.querySelector(".modal-btn");
 const modalConfirm = document.querySelector(".modal-confirm");
+const formData = document.querySelectorAll(".formData");
+const firstName = document.getElementById("first");
+const lastName = document.getElementById("last");
+const email = document.getElementById("email");
+const birthdate = document.getElementById("birthdate");
+const quantity = document.getElementById("quantity");
+const locations = document.getElementsByName("location");
+const condition = document.getElementById("checkbox1");
+const form = document.getElementById("reserve");
+const submit = document.getElementById("submit");
 
-// on cree une fonction qui a pour role de masquer le formulaire en injectant du style
-// lors de l evenement click sur l element de classe close
-closeIcon.addEventListener("click", () => {
-  closeForm.style.visibility = "hidden";
-});
-//-------------------------------
 
+/* Evenement du DOM */ 
+
+// Évènement pour ouvrir le formulaire.
+modalBtn.addEventListener("click", launchModal);
+
+// Évènement pour fermer le formulaire.
+closeBtn.addEventListener("click", closeModal);
+
+
+/* Fonctions */
+
+
+// Ouvre le formulaire.
+function launchModal() {
+  modalConfirm.style.display = "none";
+  modalForm.style.display = "block";  
+};
+
+// Ferme le formulaire.
+function closeModal() {
+  modalForm.style.display = "none";
+};
+
+// Affiche le message de confirmation.
+function confirmForm(event) {
+  event.preventDefault();
+  modalForm.classList.remove("bground");
+  modalForm.classList.add("modal-confirm")
+  modalConfirm.style.display = "block";
+
+}
+
+
+// Message d'erreur personnalise avec l'input concerne et un message a afficher.
+function errorMessage(element, message) {
+
+  // Creation d'un element paragraphe.
+  const newP = document.createElement("p");
+
+  // Ajoute la classe error au nouvel element.
+  newP.classList.add("error");
+
+  // Ajoute le message au nouvel element.
+  newP.textContent = message;
+
+  // Modifie la couleur d'arrière-plan de l'élément qui reçois l'erreur.
+  element.style.background = "indianred";
+
+  // Injecte l'élément <p> précédemment créé à l'élément qui doit afficher l'erreur.
+  element.parentNode.insertBefore(newP, element);
+
+}
+
+// Vérifie si le formulaire est valide à la soumission du formulaire.
+function validate() {
+
+  // Regex pour le champ nom et prénom.
+  const name_regex = /^[A-zÀ-ú]+$/;
+
+  // Regex pour le champ email.
+  const mail_regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+  // Regex pour la date de naissance
+  const date_regex = /^\d{4}-\d{2}-\d{2}$/;
+
+  // Variable pour les champs localisations
+  let checked = false;
+
+
+  // Supprime tous les messages d'erreur déjà present.
+  // Utilisation de la fonction Array.prototype.forEach() qui permet d'exécuter une fonction donnée sur chaque élément du tableau.
+  document.querySelectorAll(".error").forEach(e => e.remove());
+ 
+
+
+  // Vérifie le champ prénom, si le champ ne passe pas le teste de regex ou s'il y a moin de 2 caractères,
+  // alors on affiche un message d'erreur, et on empêche la soumission du formulaire.
+  if (!name_regex.test(firstName.value) || firstName.value.length < 2) {
+
+    // Appel de la fonction errorMessage, avec en paramètre l'élément du champ prénom et le message a affiché.
+    errorMessage(firstName, "Ce champ doit contenir au minimum 2 caractères !");
+
+    // on empêche la soumission du formulaire
+    return false;
+
+    // Sinon...
+  } else {
+
+    // On change l'arrière-plan du champ correcte.
+    firstName.style.background = "green";
+
+  }
+
+
+  // Pareil que pour le champ prénom, on vérifie le champ nom avec les mêmes conditions.
+  // utilisation de la methode JavaScript RegExp test()
+  if (!name_regex.test(lastName.value) || lastName.value.length < 2) {
+
+    errorMessage(lastName, "Ce champ doit contenir au minimum 2 caractères !");
+    return false;
+
+  } else {
+
+    lastName.style.background = "green";
+
+  }
+
+
+  // Vérifie le champ email, avec un test pour le regex.
+  if (!mail_regex.test(email.value)) {
+
+    errorMessage(email, "Ce champ doit contenir une adresse email valide !");
+    return false;
+
+  } else {
+
+    email.style.background = "green";
+
+  }
+
+
+  // Vérifie la date de naissance, avec un test pour le regex.
+  if (!date_regex.test(birthdate.value)) {
+
+    errorMessage(birthdate, "Entrez vôtre date de naissance !");
+    return false;
+
+  } else {
+
+    birthdate.style.background = "green";
+
+  }
+
+
+  // Vérifie que le nombre de tournois est bien une valeur numérique entière.
+  // Number.isInteger() permet de déterminer si l'argument est un nombre entier.
+  // parseFloat() permet de transformer une chaîne de caractères en un nombre flottant.
+
+  //faire une regex ici
+  if (!Number.isInteger(parseFloat(quantity.value)) || quantity.value < 0) {
+
+    errorMessage(quantity, "Ce champ doit être une valeur numérique entier !");
+    return false;
+
+  } else {
+
+    quantity.style.background = "green";
+
+  }
+
+
+  // Vérifie si une localisation est cochée.
+  // On boucle sur tous les boutons radio pour les localisations
+  for (let i = 0; i < locations.length; i++) {
+
+    // Si une des localisations est cochée
+    if (locations[i].checked) {
+
+      // la variable checked devient true
+      checked = true;
+      break
+    }
+
+  }
+
+  // Si la variable checked est false, alors aucune localisation n'est cochée
+  if (!checked) {
+
+    errorMessage(document.getElementById("location1"), "Une localisation doit être sélectionner !");
+    return false;
+
+  }
+
+
+  // Vérifie si les conditions d'utilisation sont cochée.
+  if (!condition.checked) {
+
+    errorMessage(condition, "Vous devez accepté les conditions d'utilisation !")
+    return false;
+
+  }
+
+  /* Si tout est OK */
+ 
+   confirmForm();
+
+}
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 //-------------------------------
 // ISSUE 2
 // Implémenter entrées du formulaire
@@ -131,11 +355,15 @@ function validate(e) {
   }
 
       
-  modalConfirm.style.visibility = "visible";    
+  //modalConfirm.style.visibility = "visible";   
 
-  //alert("Merci ! Votre réservation a été reçue.");
+  alert("Merci ! Votre réservation a été reçue.");
 }
+*/
 
+
+
+/*
 // Recuperer les informations du formulaire :
 
 // JSON.parse(objet) : Transforme un string defini en parametre en objet
@@ -191,15 +419,3 @@ closeBtnSubmit.addEventListener("click", () => {
   modalConfirm.style.visibility = "visible";
 });
 */
-// DOM Elements
-const modalbg = document.querySelector(".bground");
-const modalBtn = document.querySelectorAll(".modal-btn");
-const formData = document.querySelectorAll(".formData");
-
-// launch modal event
-modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
-
-// launch modal form
-function launchModal() {
-  modalbg.style.display = "block";
-}

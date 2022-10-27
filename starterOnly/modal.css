@@ -527,8 +527,15 @@ footer {
   }
 }
 
+.error {
+  font-size: 14px;
+  margin-top: 0;
+  
+}
+
+
 .modal-confirm {
-  visibility: hidden;
+  
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -567,3 +574,8 @@ footer {
   font-size: 14px;
   font-weight: 500; 
 }
+
+
+
+
+
