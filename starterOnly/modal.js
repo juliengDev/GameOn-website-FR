@@ -24,7 +24,7 @@ const quantity = document.getElementById("quantity");
 const locations = document.getElementsByName("location");
 const condition = document.getElementById("checkbox1");
 const form = document.getElementById("reserve");
-const submit = document.getElementById("submit");
+const submit = document.querySelector(".btn-submit");
 
 
 /* Evenement du DOM */ 
@@ -35,14 +35,15 @@ modalBtn.addEventListener("click", launchModal);
 // Évènement pour fermer le formulaire.
 closeBtn.addEventListener("click", closeModal);
 
+// Évènement pour la soumission du formulaire
+submit.addEventListener("click", validate);
+
 
 /* Fonctions */
 
-
 // Ouvre le formulaire.
 function launchModal() {
-  modalConfirm.style.display = "none";
-  modalForm.style.display = "block";  
+    modalForm.style.display = "block";  
 };
 
 // Ferme le formulaire.
@@ -51,12 +52,12 @@ function closeModal() {
 };
 
 // Affiche le message de confirmation.
-function confirmForm(event) {
+ function confirmForm(event) {
   event.preventDefault();
-  modalForm.classList.remove("bground");
-  modalForm.classList.add("modal-confirm")
-  modalConfirm.style.display = "block";
+  event.stopPropagation();
+  document.getElementsByClassName('formData').remove();
 
+ 
 }
 
 
@@ -92,14 +93,20 @@ function validate() {
   // Regex pour la date de naissance
   const date_regex = /^\d{4}-\d{2}-\d{2}$/;
 
+  //Regex pour le nombre de tournois
+  const quantity_regex = /^[0-9]$/;
+
   // Variable pour les champs localisations
   let checked = false;
 
 
   // Supprime tous les messages d'erreur déjà present.
   // Utilisation de la fonction Array.prototype.forEach() qui permet d'exécuter une fonction donnée sur chaque élément du tableau.
-  document.querySelectorAll(".error").forEach(e => e.remove());
- 
+
+ const errors = document.querySelectorAll(".error");
+ errors.forEach(function(value) {
+  value.remove();
+ });
 
 
   // Vérifie le champ prénom, si le champ ne passe pas le teste de regex ou s'il y a moin de 2 caractères,
@@ -166,7 +173,7 @@ function validate() {
   // parseFloat() permet de transformer une chaîne de caractères en un nombre flottant.
 
   //faire une regex ici
-  if (!Number.isInteger(parseFloat(quantity.value)) || quantity.value < 0) {
+  if (!quantity_regex.test(quantity.value) || quantity.value < 0 || quantity.value == "") {
 
     errorMessage(quantity, "Ce champ doit être une valeur numérique entier !");
     return false;
@@ -208,10 +215,9 @@ function validate() {
     return false;
 
   }
-
-  /* Si tout est OK */
+  //* Si tout est OK */
  
-   confirmForm();
+  
 
 }
   

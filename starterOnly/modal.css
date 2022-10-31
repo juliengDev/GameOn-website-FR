@@ -534,46 +534,7 @@ footer {
 }
 
 
-.modal-confirm {
-  
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 536px;
-  height: 850px;
-  position: relative;
-  top:87px;
-  left: 460px;
-  border-radius: 8px;
-  background-color: #232323;
-  color: #fff;
-}
-.modal-confirm p {
-  position: absolute;
-  display: inline-block;
-  line-height: 0.9;
-  font-weight: 400;
-  font-family: "DM sans", sans-serif;
-  font-size: 36px; 
-}
-.modal-confirm .p1 {  
-  top: 361px;  
-}
-.modal-confirm .p2 {
-  bottom: 387px;
-}
-.modal-confirm > button {
-  display: flex;
-  position: absolute;
-  bottom: 17px;
-  width: 180px;
-  height: 40px;
-  border-radius: 0;
-  align-items: center; 
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 500; 
-}
+
 
 
 
