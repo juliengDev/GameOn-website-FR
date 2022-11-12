@@ -517,6 +517,7 @@ footer {
   }
 }
 
+
 @keyframes modalopen {
   from {
     opacity: 0;
@@ -532,11 +533,18 @@ footer {
   margin-top: 0;
   
 }
-
-@media screen and (max-width: 800px) {
-
-  
+@media screen and (max-width: 1100px) {
+  .hero-headline {
+    font-size: 4.5rem;
   }
+}
+@media screen and (max-width: 800px) {
+  .hero-headline {
+    font-size: 3rem;
+  }
+}
+
+
 
 
 

@@ -33,8 +33,8 @@ const btn = document.getElementById('btn');
 /* Evenement du DOM */ 
 
 // Évènement pour ouvrir le formulaire.
-modalBtn.addEventListener("click", launchModal);
-modalBtn2.addEventListener("click", launchModal);
+modalBtn.addEventListener("click", launchModal); // desktop
+modalBtn2.addEventListener("click", launchModal); // mobile
 
 
 // Évènement pour fermer le formulaire.
@@ -57,7 +57,7 @@ function closeModal() {
 
 // Affiche le message de confirmation a la validation du formulaire.
 function confirmForm() {
-   for(let i =0; i < formData.length; i++) {
+   for(let i = 0; i < formData.length; i++) {
     formData[i].remove();
    }
    textLabel.innerHTML = '<p>Merci pour<br>votre inscription</p>';
@@ -80,9 +80,7 @@ function errorMessage(element, message) {
   // Ajoute le message au nouvel element.
   newP.textContent = message;
   // Ajoute une couleur rouge au message
-  newP.style.color = 'red';
-
-  
+  newP.style.color = 'red';  
 
   // Injecte l'élément <p> précédemment créé à l'élément qui doit afficher l'erreur.
   element.parentNode.insertBefore(newP, element);
@@ -111,10 +109,11 @@ function validate() {
   // Supprime tous les messages d'erreur déjà present.
   // Utilisation de la fonction Array.prototype.forEach() qui permet d'exécuter une fonction donnée sur chaque élément du tableau.
 
- const errors = document.querySelectorAll(".error");
- errors.forEach(function(value) {
-  value.remove();
- });
+  const errors = document.querySelectorAll(".error");
+
+  errors.forEach(function(value) {
+    value.remove();
+  });
 
 
   // Vérifie le champ prénom, si le champ ne passe pas le teste de regex ou s'il y a moin de 2 caractères,
@@ -159,18 +158,13 @@ function validate() {
  
 
 
-  // Vérifie que le nombre de tournois est bien une valeur numérique entière.
-  // Number.isInteger() permet de déterminer si l'argument est un nombre entier.
-  // parseFloat() permet de transformer une chaîne de caractères en un nombre flottant.
-
-  //faire une regex ici
+  // Vérifie que le nombre de tournois est bien une valeur numérique entière ou que le champs n'est pas vide.
+  
   if (!quantity_regex.test(quantity.value)  || quantity.value == "") {
 
     errorMessage(quantity, "Ce champ doit être une valeur numérique entier !");
     return false;
   }
-
-
 
   // Vérifie si une localisation est cochée.
   // On boucle sur tous les boutons radio pour les localisations
@@ -193,21 +187,22 @@ function validate() {
   }
 
 
+
+
+
   // Vérifie si les conditions d'utilisation sont cochée.
   if (!condition.checked) {
 
     errorMessage(condition, "Vous devez accepté les conditions d'utilisation !")
     return false;
   }
-  //* Si tout est OK */
   
+  //* Si tout est OK */
    confirmForm(); 
    event.preventDefault();
   }
   
-
-
-
+  
 
 
 
